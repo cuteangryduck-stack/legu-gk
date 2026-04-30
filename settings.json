@@ -1,0 +1,33 @@
+{
+  "content": {
+    "siteName": "legu",
+    "status": "Site is being built, there isn't anything here rn",
+    "author": "Akon'Vess",
+    "favicon": "https://legu.veho.com.au/legu-rs.png"
+  },
+  "font": {
+    "name": "AliceHand",
+    "path": "https://legu.veho.com.au/fonts/alicehandwriting.ttf",
+    "type": "truetype"
+  },
+  "colors": {
+    "background": "#0b0d0b",
+    "surface": "#151915",
+    "primary": "#3fdc85",
+    "primaryDim": "#2a7a3a",
+    "text": "#b2c4b2",
+    "textDim": "#5d685d",
+    "button": "#1a1f1a",
+    "buttonHover": "#262e26",
+    "glow": "rgba(63,220,133,0.09)",
+    "shadow": "rgba(63,220,133,0.25)"
+  },
+  "chatColors": {
+    "background": "#d8e8d8",
+    "surface": "#eef5ee",
+    "primary": "#4a7c4a",
+    "primaryDim": "#b8ccb8",
+    "text": "#2e3b2e",
+    "textDim": "#7a8a7a"
+  }
+}
