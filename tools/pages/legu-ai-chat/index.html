@@ -6,6 +6,7 @@
     <title>Minichat</title>
     <link rel="icon" id="favicon" href="">
     <style>
+        /* Initial hide to prevent flash of unstyled content */
         body { opacity: 0; transition: opacity 0.3s ease; margin: 0; }
         
         #chat-body {
@@ -51,7 +52,7 @@
 </head>
 <body id="chat-body">
 <div id="chat-container">
-    <header id="header-name">Minichat</header>
+    <header id="header-name">Legu Groq Minichat</header>
     <div id="messages"></div>
     <div id="input-area">
         <input type="text" id="user-input" placeholder="Type..." autocomplete="off">
@@ -65,11 +66,11 @@
     const MODEL = "llama-3.3-70b-versatile";
 
     async function init() {
+        // Fetch theme from domain root
         const res = await fetch('/settings.json');
         const cfg = await res.json();
         
         const root = document.documentElement;
-        // Use the chat-specific color override or fallback to main colors
         const c = cfg.chatColors;
         root.style.setProperty('--bg', c.background);
         root.style.setProperty('--surface', c.surface);
@@ -83,20 +84,23 @@
         fontStyle.appendChild(document.createTextNode(`@font-face { font-family: "${cfg.font.name}"; src: url("${cfg.font.path}") format("${cfg.font.type}"); }`));
         document.head.appendChild(fontStyle);
 
-        document.getElementById('header-name').innerText = "Legu Groq Minichat";
         document.getElementById('favicon').href = cfg.content.favicon;
         document.body.style.opacity = "1";
         
+        // Load API key from THIS directory
         loadApiKey();
     }
 
     async function loadApiKey() {
         try {
-            const response = await fetch('/api.txt');
+            // FIXED: Using ./api.txt to stay within the /tools/ directory
+            const response = await fetch('./api.txt');
             const encodedKey = await response.text();
             API_KEY = atob(encodedKey.trim());
             document.getElementById('key-display').innerText = `Current API (public): ${API_KEY}`;
-        } catch (err) { document.getElementById('key-display').innerText = "Error loading key"; }
+        } catch (err) { 
+            document.getElementById('key-display').innerText = "Error: api.txt not found in this folder."; 
+        }
     }
 
     function appendMessage(role, text) {
@@ -125,8 +129,11 @@
             });
             const data = await response.json();
             appendMessage('ai', data.choices[0].message.content);
-        } catch (e) { appendMessage('ai', "Error connecting."); }
-        finally { input.disabled = false; btn.disabled = false; input.focus(); }
+        } catch (e) { 
+            appendMessage('ai', "Error connecting to Groq."); 
+        } finally { 
+            input.disabled = false; btn.disabled = false; input.focus(); 
+        }
     }
 
     document.getElementById('send-btn').onclick = sendMessage;
