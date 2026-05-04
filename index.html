@@ -6,13 +6,17 @@
     <title>Legu</title>
     <link rel="icon" id="favicon" href="">
     <style id="dynamic-styles">
-        /* Initial hide to prevent flash of unstyled content */
         body { opacity: 0; transition: opacity 0.3s ease; }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: var(--bg);
+            background-color: var(--bg);
+            background-image: url('/img/legu-rs-bg.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
             color: var(--text);
             font-family: var(--font-name), sans-serif;
             display: flex;
@@ -25,11 +29,21 @@
             position: relative;
         }
 
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            pointer-events: none;
+        }
+
         canvas#particles {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            z-index: 0;
+            z-index: 2;
             pointer-events: none;
         }
 
@@ -40,10 +54,10 @@
             background: radial-gradient(circle, var(--glow-color), transparent 75%);
             transform: translate(-50%, -50%);
             pointer-events: none;
-            z-index: 1;
+            z-index: 2;
         }
 
-        main { text-align: center; padding: 3rem 2rem; z-index: 3; }
+        main { text-align: center; padding: 3rem 2rem; z-index: 3; position: relative; }
 
         .brand {
             font-size: 5rem;
@@ -140,16 +154,16 @@
         <div class="buttons">
             <a class="btn" href="/tools/index.html">Tools</a>
             <a class="btn" href="/jugar/index.html">Games</a>
-            <a class="btn" href="https://qwf.govt.hu">Qw Falcon</a>
-            <a class="btn" href="https://cuteangryduck-stack.github.io/QwKite/">Qw Kite</a>
-            <a class="btn" href="https://jerjugar.zya.me">JerJugar</a>
+            <a class="btn" href="https://govt.hu">Qw Falcon</a>
+            <a class="btn" href="https://github.io">Qw Kite</a>
+            <a class="btn" href="https://zya.me">JerJugar</a>
         </div>
     </main>
 
     <footer>
         <div class="credits" id="author">...</div>
         <div class="links">
-            <a href="https://github.com/cuteangryduck-stack" target="_blank">Github</a>
+            <a href="https://github.com" target="_blank">Github</a>
             <a href="mailto:cute.angryduck@gmail.com">Email</a>
         </div>
     </footer>
@@ -159,7 +173,6 @@
             const res = await fetch('/settings.json');
             const cfg = await res.json();
 
-            // Inject CSS Variables
             const root = document.documentElement;
             root.style.setProperty('--bg', cfg.colors.background);
             root.style.setProperty('--surface', cfg.colors.surface);
@@ -173,7 +186,6 @@
             root.style.setProperty('--shadow-color', cfg.colors.shadow);
             root.style.setProperty('--font-name', cfg.font.name);
 
-            // Inject Font Face
             const fontStyle = document.createElement('style');
             fontStyle.appendChild(document.createTextNode(`
                 @font-face {
@@ -183,14 +195,12 @@
             `));
             document.head.appendChild(fontStyle);
 
-            // Content
             document.getElementById('site-name').innerText = cfg.content.siteName;
             document.getElementById('status-text').innerText = cfg.content.status;
             document.getElementById('author').innerText = cfg.content.author;
             document.getElementById('favicon').href = cfg.content.favicon;
             document.title = cfg.content.siteName;
 
-            // Show Page
             document.body.style.opacity = "1";
             startParticles(cfg.colors.primary);
         }
