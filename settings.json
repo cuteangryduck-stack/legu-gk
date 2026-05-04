@@ -6,9 +6,9 @@
     "favicon": "https://legu.veho.com.au/legu-rs.png"
   },
   "font": {
-    "name": "AliceHand",
-    "path": "https://legu.veho.com.au/fonts/alicehandwriting.ttf",
-    "type": "truetype"
+    "name": "Carmilla",
+    "path": "/fonts/carmilla.otf",
+    "type": "opentype"
   },
   "colors": {
     "background": "#0b0d0b",
